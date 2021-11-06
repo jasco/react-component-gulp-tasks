@@ -40,7 +40,7 @@ module.exports = function (gulp, config) {
 	var buildTasks = ['build:dist:scripts'];
 
 	if (config.component.less && config.component.less.entry) {
-		gulp.task('build:dist:css', ['clean:dist'], function () {
+		gulp.task('build:dist:css', gulp.series('clean:dist'), function () {
 			return gulp.src(config.component.less.path + '/' + config.component.less.entry)
 				.pipe(less())
 				.pipe(rename(config.component.pkgName + '.css'))
@@ -52,5 +52,5 @@ module.exports = function (gulp, config) {
 		buildTasks.push('build:dist:css');
 	}
 
-	gulp.task('build:dist', buildTasks);
+	gulp.task('build:dist', gulp.series(...buildTasks));
 };
