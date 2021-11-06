@@ -66,8 +66,8 @@ function initTasks (gulp, config) {
 		cleanTasks.push('clean:examples');
 	}
 
-	gulp.task('build', buildTasks);
-	gulp.task('clean', cleanTasks);
+	gulp.task('build', gulp.series(...buildTasks));
+	gulp.task('clean', gulp.series(...cleanTasks));
 }
 
 module.exports = initTasks;
