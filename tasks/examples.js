@@ -52,7 +52,7 @@ module.exports = function (gulp, config) {
 			var common = browserify(opts);
 
 			var bundle = browserify(opts);
-			bundle.transform('babelify');
+			bundle.transform(babelify);
 			config.aliasify && bundle.transform(aliasify);
 			bundle.require('./' + config.component.src + '/' + config.component.file, { expose: config.component.pkgName });
 
