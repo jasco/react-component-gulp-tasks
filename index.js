@@ -44,6 +44,8 @@ function initTasks (gulp, config) {
 			scripts: ['example.js'],
 			less: ['example.less']
 		});
+
+		require('./tasks/examples')(gulp, config);
 	}
 
 	require('./tasks/bump')(gulp, config);
@@ -61,7 +63,6 @@ function initTasks (gulp, config) {
 	}
 
 	if (config.example) {
-		require('./tasks/examples')(gulp, config);
 		buildTasks.push('build:examples');
 		cleanTasks.push('clean:examples');
 	}

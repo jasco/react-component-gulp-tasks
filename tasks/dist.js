@@ -8,7 +8,7 @@ var shim = require('browserify-shim');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
-var minifyCSS = require('gulp-minify-css');
+var minifyCSS = require('gulp-clean-css');
 
 module.exports = function (gulp, config) {
 	gulp.task('clean:dist', function (done) {
