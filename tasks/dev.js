@@ -11,5 +11,5 @@ module.exports = function (gulp, config) {
 		});
 	});
 
-	gulp.task('dev', ['dev:server', 'watch:examples']);
+	gulp.task('dev', gulp.series('dev:server', 'watch:examples'));
 };

@@ -8,7 +8,7 @@ var shim = require('browserify-shim');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
-var minifyCSS = require('gulp-minify-css');
+var minifyCSS = require('gulp-clean-css');
 
 module.exports = function (gulp, config) {
 	gulp.task('clean:dist', function (done) {
@@ -19,7 +19,7 @@ module.exports = function (gulp, config) {
 		var standalone = browserify('./' + config.component.src + '/' + config.component.file, {
 			standalone: config.component.name
 		})
-		.transform('babelify')
+		.transform(babelify)
 		.transform(shim);
 
 		config.component.dependencies.forEach(function (pkg) {
@@ -40,17 +40,17 @@ module.exports = function (gulp, config) {
 	var buildTasks = ['build:dist:scripts'];
 
 	if (config.component.less && config.component.less.entry) {
-		gulp.task('build:dist:css', ['clean:dist'], function () {
+		gulp.task('build:dist:css', gulp.series('clean:dist'), function () {
 			return gulp.src(config.component.less.path + '/' + config.component.less.entry)
 				.pipe(less())
 				.pipe(rename(config.component.pkgName + '.css'))
 				.pipe(gulp.dest('dist'))
 				.pipe(rename(config.component.pkgName + '.min.css'))
 				.pipe(minifyCSS())
-				.pipe(gulp.dest('dist'))
+				.pipe(gulp.dest('dist'));
 		});
 		buildTasks.push('build:dist:css');
 	}
 
-	gulp.task('build:dist', buildTasks);
+	gulp.task('build:dist', gulp.series(...buildTasks));
 };

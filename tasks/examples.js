@@ -52,7 +52,7 @@ module.exports = function (gulp, config) {
 			var common = browserify(opts);
 
 			var bundle = browserify(opts);
-			bundle.transform('babelify');
+			bundle.transform(babelify);
 			config.aliasify && bundle.transform(aliasify);
 			bundle.require('./' + config.component.src + '/' + config.component.file, { expose: config.component.pkgName });
 
@@ -129,16 +129,16 @@ module.exports = function (gulp, config) {
 			.pipe(connect.reload());
 	});
 
-	gulp.task('build:examples', [
+	gulp.task('build:examples', gulp.series(
 		'build:example:files',
 		'build:example:css',
 		'build:example:scripts'
-	]);
+	));
 
-	gulp.task('watch:examples', [
+	gulp.task('watch:examples', gulp.series(
 		'build:example:files',
 		'build:example:css'
-	], function () {
+	), function () {
 		buildExampleScripts(true)();
 		gulp.watch(config.example.files.map(function (i) {
 			return config.example.src + '/' + i;

@@ -26,12 +26,12 @@ module.exports = function (gulp, config) {
 	var releaseTasks = ['publish:tag', 'publish:npm'];
 
 	if (config.example) {
-		gulp.task('publish:examples', ['build:examples'], function () {
+		gulp.task('publish:examples', gulp.series('build:examples'), function () {
 			return gulp.src(config.example.dist + '/**/*').pipe(deploy());
 		});
 
 		releaseTasks.push('publish:examples');
 	}
 
-	gulp.task('release', releaseTasks);
+	gulp.task('release', gulp.series(...releaseTasks));
 };
